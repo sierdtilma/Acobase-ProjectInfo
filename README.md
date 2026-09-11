@@ -32,12 +32,20 @@ npm audit           # kwetsbaarheden in dependencies
 
 ### Wat de check (nog) niet automatisch afvangt — handmatig nalopen
 
-- Werkt de visual correct in Power BI Desktop, Service, mobiele app, "Analyseren in Excel" en bij export naar PDF/PowerPoint?
+Nu al te testen, ook zonder certificering:
+- Werkt de visual correct in Power BI Desktop (incl. `File → Export → PDF` vanuit Desktop zelf)?
+- Werkt de visual in Power BI Service (normaal weergeven/interacteren) en in de mobiele app?
 - Toetsenbordnavigatie en screenreader-ondersteuning (focus states, ARIA waar relevant).
 - Gedrag bij lege data, zeer veel rijen, `null`/lege waarden.
 - Gedrag met Row-Level Security (RLS) ingeschakeld.
 - High-contrast / donker thema van Power BI.
 - Kloppen de screenshots/omschrijving die je in Partner Center gebruikt nog met de huidige visual?
+
+Pas na certificering zinvol te testen (Microsoft blokkeert dit bewust voor niet-gecertificeerde visuals):
+- Export naar PDF/PowerPoint **vanuit de Power BI Service** (niet Desktop) — de visual wordt hierbij leeg/geblokkeerd weergegeven zolang hij niet gecertificeerd is.
+- E-mailabonnementen (subscriptions) met schermafbeelding van het rapport.
+- Gebruik in via "Publish to web" gedeelde rapporten of ingesloten in SharePoint Online/Teams.
+- Werking bij een tenant-instelling die alleen gecertificeerde visuals toestaat.
 
 De visual vraagt momenteel **geen** privileges aan in [`capabilities.json`](capabilities.json) (`privileges: []`) — er wordt geen export-, web- of file-toegang gebruikt in de code. Zolang dat zo blijft is geen privacyverklaring nodig. Voeg je later functionaliteit toe die wél een privilege vereist (bijv. `ExportContent` bij export-knoppen), werk dan ook de privacyverklaring en het certificeringsformulier bij.
 
