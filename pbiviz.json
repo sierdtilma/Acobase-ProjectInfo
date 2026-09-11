@@ -4,7 +4,7 @@
     "displayName": "Projectinfo",
     "guid": "ProjectinfoA7C4E9B2D6F14388A1C5E7B9D2F40631",
     "visualClassName": "Visual",
-    "version": "1.0.0.10",
+    "version": "1.0.0.12",
     "description": "Acobase visual voor projectinformatie",
     "supportUrl": "https://github.com/sierdtilma/Acobase-ProjectInfo/blob/main/SUPPORT.md",
     "gitHubUrl": "https://github.com/sierdtilma/Acobase-ProjectInfo"
@@ -22,5 +22,5 @@
   "capabilities": "capabilities.json",
   "dependencies": null,
   "stringResources": [],
-  "version": "1.0.0.10"
+  "version": "1.0.0.12"
 }

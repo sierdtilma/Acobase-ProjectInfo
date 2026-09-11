@@ -1,7 +1,7 @@
 {
   "name": "projectinfo",
   "description": "Power BI custom visual voor Acobase projectinformatie",
-  "version": "1.0.0.10",
+  "version": "1.0.0.12",
   "license": "MIT",
   "scripts": {
     "pbiviz": "node scripts/pbiviz-wrapper.js",

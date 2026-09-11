@@ -61,10 +61,5 @@
     }
   }],
   "supportsMultiVisualSelection": true,
-  "privileges": [
-    {
-      "name": "ExportContent",
-      "essential": true
-    }
-  ]
+  "privileges": []
 }
