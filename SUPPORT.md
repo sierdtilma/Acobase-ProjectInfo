@@ -6,8 +6,8 @@ Dank je voor het gebruik van de **Projectinfo** custom visual van Acobase.
 
 Gebruik bij voorkeur de GitHub Issues van deze repository:
 
-- **Nieuw issue aanmaken:** https://github.com/sierdtilma/AcoBase-PBI/issues/new
-- **Bestaande issues bekijken:** https://github.com/sierdtilma/AcoBase-PBI/issues
+- **Nieuw issue aanmaken:** https://github.com/sierdtilma/AcoBase-Projectinfo/issues/new
+- **Bestaande issues bekijken:** https://github.com/sierdtilma/AcoBase-Projectinfo/issues
 
 Vermeld in je melding zo mogelijk:
 - Versie van de visual (zie `pbiviz.json` → `visual.version`, of de eigenschap "Version" in Power BI).

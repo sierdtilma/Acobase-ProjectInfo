@@ -62,15 +62,15 @@ Allow Interactions, Color Palette, Context Menu, High Contrast, Highlight Data, 
 
 ## GitHub-repository opzetten
 
-Lokale repo is al geïnitialiseerd. Om te verbinden met GitHub:
+Deze visual heeft een eigen, dedicated repository (los van andere Acobase-repo's). Lokale repo is al geïnitialiseerd. Om te verbinden met GitHub:
 
 ```powershell
-git remote add origin https://github.com/sierdtilma/AcoBase-PBI.git
+git remote add origin https://github.com/sierdtilma/AcoBase-Projectinfo.git
 git branch -M main
 git push -u origin main
 ```
 
-(Maak de lege repository eerst aan op github.com als **publieke** repository — vereist voor certificering en voor de support-/gitHubUrl in [`pbiviz.json`](pbiviz.json). Installeer eventueel de `gh` CLI om dit vanaf de terminal te doen.)
+(Maak de lege repository eerst aan op github.com als **publieke** repository met de naam `AcoBase-Projectinfo` — vereist voor certificering en voor de support-/gitHubUrl in [`pbiviz.json`](pbiviz.json). Installeer eventueel de `gh` CLI om dit vanaf de terminal te doen.)
 
 ## Support-pagina
 
