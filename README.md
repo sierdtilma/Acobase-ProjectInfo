@@ -45,9 +45,9 @@ Allow Interactions, Color Palette, Context Menu, High Contrast, Highlight Data, 
 ## Stappenplan certificering
 
 ### Fase A — Code & repository gereedmaken
-1. GitHub-repository aanmaken en pushen (zie hieronder).
+1. GitHub-repository aanmaken en pushen (zie hieronder) — repository moet **publiek** zijn, certificering en de support-URL verwijzen ernaar.
 2. `npm run certify` schoon laten draaien (0 fouten); waarschuwingen beoordelen en oplossen.
-3. Echte waarden invullen in [`pbiviz.json`](pbiviz.json): `visual.supportUrl`, `author.email`, `visual.gitHubUrl` (geen `example.com`-placeholders meer).
+3. Echte waarden invullen in [`pbiviz.json`](pbiviz.json): `visual.supportUrl` (zie [`SUPPORT.md`](SUPPORT.md)), `author.email`, `visual.gitHubUrl` (geen `example.com`-placeholders meer).
 4. Handmatige checklist hierboven doorlopen.
 5. `npm run package` — resulterende `.pbiviz` testen door hem in Power BI Desktop te importeren.
 
@@ -70,4 +70,8 @@ git branch -M main
 git push -u origin main
 ```
 
-(Maak de lege repository eerst aan op github.com, of installeer de `gh` CLI om dit vanaf de terminal te doen.)
+(Maak de lege repository eerst aan op github.com als **publieke** repository — vereist voor certificering en voor de support-/gitHubUrl in [`pbiviz.json`](pbiviz.json). Installeer eventueel de `gh` CLI om dit vanaf de terminal te doen.)
+
+## Support-pagina
+
+`visual.supportUrl` in [`pbiviz.json`](pbiviz.json) verwijst naar [`SUPPORT.md`](SUPPORT.md) in deze (publieke) repository. Dit bestand beschrijft hoe gebruikers een issue melden of contact opnemen. Werk [`SUPPORT.md`](SUPPORT.md) bij als de repo-naam/eigenaar wijzigt, zodat de link geldig blijft.
