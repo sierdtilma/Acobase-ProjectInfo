@@ -54,9 +54,13 @@ heading("ESLint");
 // 2. TypeScript type-check
 heading("TypeScript type-check");
 {
-    const result = run("npx", ["tsc", "--noEmit"]);
+    // --skipLibCheck: node_modules bevat geneste duplicaten van powerbi-visuals-api
+    // (top-level + binnen powerbi-visuals-utils-formattingutils) die anders valse
+    // TS6200/TS2374-conflicten opleveren. De echte pbiviz/webpack-build (npm run package)
+    // heeft hier geen last van en blijft de uiteindelijke waarheid voor compileerbaarheid.
+    const result = run("npx", ["tsc", "--noEmit", "--skipLibCheck"]);
     if (result.status === 0) {
-        ok("Geen type-fouten");
+        ok("Geen type-fouten in eigen code");
     } else {
         fail("TypeScript compilatiefouten:");
         console.log(result.stdout || result.stderr);
