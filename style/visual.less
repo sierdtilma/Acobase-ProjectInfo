@@ -1,0 +1,61 @@
+.projectinfo {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    padding: var(--pi-container-padding-top, 12px) var(--pi-container-padding-right, 12px) var(--pi-container-padding-bottom, 12px) var(--pi-container-padding-left, 12px);
+    color: #374151;
+    background: #ffffff;
+}
+
+.projectinfo-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    overflow: hidden;
+    border: var(--pi-border, 1px solid #d1d5db);
+    border-radius: var(--pi-radius, 6px);
+    background: #ffffff;
+}
+
+.projectinfo-table th,
+.projectinfo-table td {
+    padding: var(--pi-vertical-padding, 4px) var(--pi-horizontal-padding, 7px);
+    border-right: var(--pi-vertical-line, 1px solid #e5e7eb);
+    border-bottom: var(--pi-horizontal-line, 1px solid #e5e7eb);
+    white-space: normal;
+    overflow-wrap: anywhere;
+    line-height: 1.2;
+}
+
+.projectinfo-table tr:last-child > * { border-bottom: 0; }
+.projectinfo-table tr > *:last-child { border-right: 0; }
+
+.projectinfo-table th {
+    width: 34%;
+    font-family: var(--pi-label-font-family, "Segoe UI", sans-serif);
+    font-size: var(--pi-label-font-size, 11px);
+    font-weight: var(--pi-label-font-weight, 700);
+    font-style: var(--pi-label-font-style, normal);
+    text-decoration: var(--pi-label-decoration, none);
+    text-align: var(--pi-label-align, left);
+    color: var(--pi-label-color, #374151);
+    background: var(--pi-label-background, #ffffff);
+}
+
+.projectinfo-table td {
+    font-family: var(--pi-value-font-family, "Segoe UI", sans-serif);
+    font-size: var(--pi-value-font-size, 11px);
+    font-weight: var(--pi-value-font-weight, 400);
+    font-style: var(--pi-value-font-style, normal);
+    text-decoration: var(--pi-value-decoration, none);
+    text-align: var(--pi-value-align, left);
+    color: var(--pi-value-color, #374151);
+    background: var(--pi-value-background, #ffffff);
+}
+
+.projectinfo-empty {
+    padding: 12px;
+    font: 11px "Segoe UI", sans-serif;
+    color: #6b7280;
+}

@@ -1,0 +1,70 @@
+{
+  "dataRoles": [
+    { "displayName": "Project", "name": "project", "kind": "GroupingOrMeasure" },
+    { "displayName": "Projectnummer", "name": "projectnummer", "kind": "GroupingOrMeasure" },
+    { "displayName": "Adviseur", "name": "adviseur", "kind": "GroupingOrMeasure" },
+    { "displayName": "Datum metingen", "name": "datumMetingen", "kind": "GroupingOrMeasure" },
+    { "displayName": "Meetnorm", "name": "meetnorm", "kind": "Measure" }
+  ],
+  "objects": {
+    "columns": {
+      "displayName": "Kolommen",
+      "properties": {
+        "selectedColumn": { "type": { "enumeration": [
+          { "displayName": "Labels", "value": "label" },
+          { "displayName": "Waarden", "value": "value" }
+        ] } },
+        "labelFontFamily": { "type": { "text": true } }, "labelFontSize": { "type": { "numeric": true } },
+        "labelBold": { "type": { "bool": true } }, "labelItalic": { "type": { "bool": true } }, "labelUnderline": { "type": { "bool": true } },
+        "labelAlignment": { "type": { "text": true } }, "labelColor": { "type": { "fill": { "solid": { "color": true } } } },
+        "labelBackgroundColor": { "type": { "fill": { "solid": { "color": true } } } },
+        "valueFontFamily": { "type": { "text": true } }, "valueFontSize": { "type": { "numeric": true } },
+        "valueBold": { "type": { "bool": true } }, "valueItalic": { "type": { "bool": true } }, "valueUnderline": { "type": { "bool": true } },
+        "valueAlignment": { "type": { "text": true } }, "valueColor": { "type": { "fill": { "solid": { "color": true } } } },
+        "valueBackgroundColor": { "type": { "fill": { "solid": { "color": true } } } }
+      }
+    },
+    "lines": {
+      "displayName": "Lijnen",
+      "properties": {
+        "horizontalColor": { "type": { "fill": { "solid": { "color": true } } } },
+        "horizontalWidth": { "type": { "numeric": true } },
+        "verticalColor": { "type": { "fill": { "solid": { "color": true } } } },
+        "verticalWidth": { "type": { "numeric": true } },
+        "borderVisible": { "type": { "bool": true } },
+        "borderColor": { "type": { "fill": { "solid": { "color": true } } } },
+        "borderWidth": { "type": { "numeric": true } },
+        "cornerRadius": { "type": { "numeric": true } }
+      }
+    },
+    "padding": {
+      "displayName": "Padding",
+      "properties": {
+        "horizontalPadding": { "type": { "numeric": true } },
+        "verticalPadding": { "type": { "numeric": true } },
+        "topPadding": { "type": { "numeric": true } },
+        "bottomPadding": { "type": { "numeric": true } },
+        "leftPadding": { "type": { "numeric": true } },
+        "rightPadding": { "type": { "numeric": true } }
+      }
+    }
+  },
+  "dataViewMappings": [{
+    "conditions": [{ "project": { "max": 1 }, "projectnummer": { "max": 1 }, "adviseur": { "max": 1 }, "datumMetingen": { "max": 1 } }],
+    "table": {
+      "rows": {
+        "select": [
+          { "for": { "in": "project" } }, { "for": { "in": "projectnummer" } },
+          { "for": { "in": "adviseur" } }, { "for": { "in": "datumMetingen" } }, { "for": { "in": "meetnorm" } }
+        ]
+      }
+    }
+  }],
+  "supportsMultiVisualSelection": true,
+  "privileges": [
+    {
+      "name": "ExportContent",
+      "essential": true
+    }
+  ]
+}
