@@ -41,8 +41,7 @@ npm audit           # kwetsbaarheden in dependencies
 
 De visual vraagt momenteel **geen** privileges aan in [`capabilities.json`](capabilities.json) (`privileges: []`) — er wordt geen export-, web- of file-toegang gebruikt in de code. Zolang dat zo blijft is geen privacyverklaring nodig. Voeg je later functionaliteit toe die wél een privilege vereist (bijv. `ExportContent` bij export-knoppen), werk dan ook de privacyverklaring en het certificeringsformulier bij.
 
-`npm run package` (pbiviz/webpack) toont zelf ook nog welke door Microsoft **aanbevolen** (niet verplichte) features ontbreken, o.a.:
-Allow Interactions, Color Palette, Context Menu, High Contrast, Highlight Data, Keyboard Navigation, Landing Page, Localizations, Rendering Events, Tooltips. Dit zijn geen harde blokkades voor certificering, maar verhogen de kans op goedkeuring zonder revisierondes en verbeteren de store-vindbaarheid.
+`npm run package` (pbiviz/webpack) toont zelf ook nog welke door Microsoft **aanbevolen** (niet verplichte) features ontbreken. Geïmplementeerd: Allow Interactions, Color Palette, High Contrast, Keyboard Navigation, Landing Page, Rendering Events, Tooltips. Bewust niet geïmplementeerd (niet zinvol voor dit type statische info-visual zonder selecteerbare datapunten): Context Menu, Highlight Data. Localizations is nog open — relevant zodra de visual in meerdere talen gebruikt gaat worden (nu hardcoded Nederlandse labels).
 
 ## Stappenplan certificering
 

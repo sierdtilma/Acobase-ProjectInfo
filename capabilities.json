@@ -61,5 +61,8 @@
     }
   }],
   "supportsMultiVisualSelection": true,
+  "supportsKeyboardFocus": true,
+  "supportsLandingPage": true,
+  "tooltips": {},
   "privileges": []
 }

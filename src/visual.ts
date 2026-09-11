@@ -23,17 +23,30 @@ const FIELDS = [
 
 export class Visual implements IVisual {
     private readonly container: HTMLElement;
+    private readonly host: powerbi.extensibility.visual.IVisualHost;
     private readonly formattingSettingsService = new FormattingSettingsService();
     private formattingSettings = new VisualFormattingSettingsModel();
 
     constructor(options: VisualConstructorOptions | undefined) {
         if (!options) throw new Error("Visual options are required");
+        this.host = options.host;
         this.container = document.createElement("div");
         this.container.className = "projectinfo";
         options.element.appendChild(this.container);
     }
 
     public update(options: VisualUpdateOptions): void {
+        this.host.eventService.renderingStarted(options);
+        try {
+            this.renderTable(options);
+            this.host.eventService.renderingFinished(options);
+        } catch (error) {
+            this.host.eventService.renderingFailed(options, String(error));
+            throw error;
+        }
+    }
+
+    private renderTable(options: VisualUpdateOptions): void {
         const dataView = options.dataViews?.[0];
         this.formattingSettings = this.formattingSettingsService.populateFormattingSettingsModel(VisualFormattingSettingsModel, dataView);
         this.applyStyles();
@@ -45,6 +58,7 @@ export class Visual implements IVisual {
             return;
         }
 
+        const allowInteractions = this.host.hostCapabilities.allowInteractions !== false;
         const element = document.createElement("table");
         element.className = "projectinfo-table";
         const body = document.createElement("tbody");
@@ -61,7 +75,15 @@ export class Visual implements IVisual {
 
             const value = document.createElement("td");
             const rawValue = table.rows?.map((sourceRow) => sourceRow[columnIndex]).find((item) => item !== null && item !== undefined);
-            value.textContent = this.formatValue(rawValue, table.columns[columnIndex]);
+            const formattedValue = this.formatValue(rawValue, table.columns[columnIndex]);
+            value.textContent = formattedValue;
+            if (allowInteractions) {
+                value.tabIndex = 0;
+                value.addEventListener("mouseenter", (event) => this.showTooltip(event, field.label, formattedValue));
+                value.addEventListener("mouseleave", () => this.host.tooltipService.hide({ isTouchEvent: false, immediately: true }));
+                value.addEventListener("focus", (event) => this.showTooltip(event, field.label, formattedValue));
+                value.addEventListener("blur", () => this.host.tooltipService.hide({ isTouchEvent: false, immediately: true }));
+            }
             row.appendChild(value);
             body.appendChild(row);
         }
@@ -74,6 +96,18 @@ export class Visual implements IVisual {
         return this.formattingSettingsService.buildFormattingModel(this.formattingSettings);
     }
 
+    private showTooltip(event: Event, label: string, value: string): void {
+        if (!value) return;
+        const target = event.currentTarget as HTMLElement;
+        const rect = target.getBoundingClientRect();
+        this.host.tooltipService.show({
+            coordinates: [rect.left + rect.width / 2, rect.top],
+            isTouchEvent: false,
+            dataItems: [{ displayName: label, value }],
+            identities: []
+        });
+    }
+
     private formatValue(value: PrimitiveValue | undefined, column: DataViewMetadataColumn): string {
         if (value === null || value === undefined) return "";
         return valueFormatter.create({ format: column.format }).format(value);
@@ -81,6 +115,30 @@ export class Visual implements IVisual {
 
     private applyStyles(): void {
         const style = this.container.style;
+        const palette = this.host.colorPalette;
+        this.container.classList.toggle("high-contrast", palette.isHighContrast);
+
+        if (palette.isHighContrast) {
+            // In high-contrast mode gebruikers-opmaak negeren en alleen host-kleuren gebruiken (Microsoft-richtlijn).
+            const foreground = palette.foreground.value;
+            const background = palette.background.value;
+            for (const prefix of ["label", "value"]) {
+                style.setProperty(`--pi-${prefix}-color`, foreground);
+                style.setProperty(`--pi-${prefix}-background`, background);
+            }
+            style.setProperty("--pi-horizontal-line", `1px solid ${foreground}`);
+            style.setProperty("--pi-vertical-line", `1px solid ${foreground}`);
+            style.setProperty("--pi-border", `1px solid ${foreground}`);
+            const padding = this.formattingSettings.paddingCard;
+            style.setProperty("--pi-container-padding-top", `${Math.max(0, padding.topPadding.value)}px`);
+            style.setProperty("--pi-container-padding-bottom", `${Math.max(0, padding.bottomPadding.value)}px`);
+            style.setProperty("--pi-container-padding-left", `${Math.max(0, padding.leftPadding.value)}px`);
+            style.setProperty("--pi-container-padding-right", `${Math.max(0, padding.rightPadding.value)}px`);
+            style.setProperty("--pi-horizontal-padding", `${Math.max(0, padding.horizontalPadding.value)}px`);
+            style.setProperty("--pi-vertical-padding", `${Math.max(0, padding.verticalPadding.value)}px`);
+            return;
+        }
+
         this.applyTextStyle(style, "label", this.formattingSettings.columnsCard.label);
         this.applyTextStyle(style, "value", this.formattingSettings.columnsCard.value);
         const lines = this.formattingSettings.linesCard;
