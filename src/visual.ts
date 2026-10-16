@@ -23,17 +23,30 @@ const FIELDS = [
 
 export class Visual implements IVisual {
     private readonly container: HTMLElement;
+    private readonly host: powerbi.extensibility.visual.IVisualHost;
     private readonly formattingSettingsService = new FormattingSettingsService();
     private formattingSettings = new VisualFormattingSettingsModel();
 
     constructor(options: VisualConstructorOptions | undefined) {
         if (!options) throw new Error("Visual options are required");
+        this.host = options.host;
         this.container = document.createElement("div");
         this.container.className = "projectinfo";
         options.element.appendChild(this.container);
     }
 
     public update(options: VisualUpdateOptions): void {
+        this.host.eventService.renderingStarted(options);
+        try {
+            this.renderContent(options);
+            this.host.eventService.renderingFinished(options);
+        } catch (error) {
+            this.host.eventService.renderingFailed(options, String(error));
+            throw error;
+        }
+    }
+
+    private renderContent(options: VisualUpdateOptions): void {
         const dataView = options.dataViews?.[0];
         this.formattingSettings = this.formattingSettingsService.populateFormattingSettingsModel(VisualFormattingSettingsModel, dataView);
         this.applyStyles();
