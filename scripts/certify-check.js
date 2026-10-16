@@ -39,10 +39,19 @@ function run(command, args) {
     return result;
 }
 
+function runNode(script, args) {
+    const result = spawnSync(process.execPath, [path.join(rootDir, "node_modules", script), ...args], {
+        cwd: rootDir,
+        stdio: "pipe",
+        encoding: "utf-8"
+    });
+    return result;
+}
+
 // 1. ESLint
 heading("ESLint");
 {
-    const result = run("npx", ["eslint", "."]);
+    const result = runNode(path.join("eslint", "bin", "eslint.js"), ["."]);
     if (result.status === 0) {
         ok("Geen lint-fouten");
     } else {
@@ -58,7 +67,7 @@ heading("TypeScript type-check");
     // (top-level + binnen powerbi-visuals-utils-formattingutils) die anders valse
     // TS6200/TS2374-conflicten opleveren. De echte pbiviz/webpack-build (npm run package)
     // heeft hier geen last van en blijft de uiteindelijke waarheid voor compileerbaarheid.
-    const result = run("npx", ["tsc", "--noEmit", "--skipLibCheck"]);
+    const result = runNode(path.join("typescript", "bin", "tsc"), ["--noEmit", "--skipLibCheck"]);
     if (result.status === 0) {
         ok("Geen type-fouten in eigen code");
     } else {
@@ -79,7 +88,20 @@ heading("npm audit (high/critical)");
     }
 }
 
-// 4. Forbidden patterns in source (security / certification red flags)
+// 4. Power BI certification audit
+heading("Power BI certification audit");
+{
+    const result = runNode(path.join("powerbi-visuals-tools", "bin", "pbiviz.js"), ["package", "--certification-audit"]);
+    if (result.status === 0) {
+        ok("Power BI certification audit geslaagd");
+    } else {
+        fail("Power BI certification audit meldt problemen:");
+        console.log(result.stdout);
+        console.error(result.stderr);
+    }
+}
+
+// 5. Forbidden patterns in source (security / certification red flags)
 heading("Verboden patronen in src/");
 {
     const forbiddenPatterns = [
@@ -111,7 +133,7 @@ heading("Verboden patronen in src/");
     if (!found) ok("Geen verboden patronen gevonden");
 }
 
-// 5. pbiviz.json metadata sanity check
+// 6. pbiviz.json metadata sanity check
 heading("pbiviz.json metadata");
 {
     const pbivizPath = path.join(rootDir, "pbiviz.json");
@@ -144,7 +166,7 @@ heading("pbiviz.json metadata");
     }
 }
 
-// 6. capabilities.json privileges review
+// 7. capabilities.json privileges review
 heading("capabilities.json privileges");
 {
     const capabilitiesPath = path.join(rootDir, "capabilities.json");
@@ -157,7 +179,7 @@ heading("capabilities.json privileges");
     }
 }
 
-// 7. Required repo files for certification
+// 8. Required repo files for certification
 heading("Verplichte repo-bestanden");
 {
     const requiredFiles = ["README.md", "LICENSE"];

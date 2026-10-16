@@ -12,6 +12,17 @@ npm start          # start de visual in ontwikkelmode (localhost)
 npm run package    # bouwt de .pbiviz (verhoogt automatisch de build-versie)
 ```
 
+### Release-validatie
+
+Voer voor een AppSource-release de controles in deze volgorde uit:
+
+1. `npm ci` — installeer exact de versies uit `package-lock.json`.
+2. `npm run certify` — controleer lint, TypeScript, dependency-audit, de Power BI-certificeringsaudit, bronpatronen, metadata, privileges en verplichte repositorybestanden.
+3. `npm run package` — bouw de `.pbiviz`; dit verhoogt automatisch de build-versie.
+4. Importeer de gebouwde `.pbiviz` in Power BI Desktop en controleer de visual handmatig volgens de checklist hieronder.
+
+De AppSource-inzending is pas klaar als de geautomatiseerde stappen slagen en de handmatige Desktop-/Service-tests en listingmaterialen zijn gecontroleerd. `npm run certify` rapporteert alle fouten, maar kan door auditproblemen eindigen met een foutcode; los die eerst op voordat je de release vrijgeeft.
+
 ## Pre-certificatie controle (Fase A)
 
 Voer na elke wijziging aan de visual de geautomatiseerde controle uit. Dit script bundelt lint, type-check, `npm audit`, een scan op verboden/onveilige patronen en een check op verplichte metadata/bestanden volgens de [Microsoft AppSource-richtlijnen](https://learn.microsoft.com/power-bi/developer/visuals/guidelines-powerbi-visuals).
@@ -28,7 +39,7 @@ npm run typecheck   # tsc --noEmit
 npm audit           # kwetsbaarheden in dependencies
 ```
 
-`npm run certify` faalt (exit code ≠ 0) zolang er nog fouten zijn. Waarschuwingen blokkeren niet, maar moeten voor certificering wel beoordeeld worden (bijv. gebruikte privileges).
+`npm run certify` faalt (exit code ≠ 0) zolang er nog fouten zijn. Waarschuwingen blokkeren niet, maar moeten voor certificering wel beoordeeld worden (bijv. gebruikte privileges). De Power BI-certificeringsaudit bouwt ook een testpakket met de huidige versie; alleen `npm run package` verhoogt de versie.
 
 ### Wat de check (nog) niet automatisch afvangt — handmatig nalopen
 
@@ -47,9 +58,9 @@ Pas na certificering zinvol te testen (Microsoft blokkeert dit bewust voor niet-
 - Gebruik in via "Publish to web" gedeelde rapporten of ingesloten in SharePoint Online/Teams.
 - Werking bij een tenant-instelling die alleen gecertificeerde visuals toestaat.
 
-De visual vraagt momenteel **geen** privileges aan in [`capabilities.json`](capabilities.json) (`privileges: []`) — er wordt geen export-, web- of file-toegang gebruikt in de code. Zolang dat zo blijft is geen privacyverklaring nodig. Voeg je later functionaliteit toe die wél een privilege vereist (bijv. `ExportContent` bij export-knoppen), werk dan ook de privacyverklaring en het certificeringsformulier bij.
+De visual vraagt momenteel **geen** privileges aan in [`capabilities.json`](capabilities.json) (`privileges: []`) en de certificeringsaudit vindt geen externe verzoeken. AppSource vereist desondanks een privacybeleid-URL in de aanbieding. Voeg je later functionaliteit toe die wél een privilege vereist (bijv. `ExportContent` bij export-knoppen), licht dat dan toe in het privacybeleid en certificeringsformulier.
 
-`npm run package` (pbiviz/webpack) toont zelf ook nog welke door Microsoft **aanbevolen** (niet verplichte) features ontbreken. Geïmplementeerd: Allow Interactions, Color Palette, High Contrast, Keyboard Navigation, Landing Page, Rendering Events, Tooltips. Bewust niet geïmplementeerd (niet zinvol voor dit type statische info-visual zonder selecteerbare datapunten): Context Menu, Highlight Data. Localizations is nog open — relevant zodra de visual in meerdere talen gebruikt gaat worden (nu hardcoded Nederlandse labels).
+`npm run package` (pbiviz/webpack) toont welke door Microsoft **aanbevolen** (niet verplichte) features ontbreken. De Power BI-certificeringsaudit meldt momenteel dat Rendering Events ontbreken in de actieve build. De event-aanroepen in `src/visual-LBP-PW0PX6RG.ts` tellen niet mee zolang `pbiviz.json` de visual uit `src/visual.ts` bouwt. Beoordeel de overige aanbevolen features op basis van de meest recente builduitvoer.
 
 ## Stappenplan certificering
 
