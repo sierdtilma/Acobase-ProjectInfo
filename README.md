@@ -95,3 +95,9 @@ git push -u origin main
 ## Support-pagina
 
 `visual.supportUrl` in [`pbiviz.json`](pbiviz.json) verwijst naar [`SUPPORT.md`](SUPPORT.md) in deze (publieke) repository. Dit bestand beschrijft hoe gebruikers een issue melden of contact opnemen. Werk [`SUPPORT.md`](SUPPORT.md) bij als de repo-naam/eigenaar wijzigt, zodat de link geldig blijft.
+
+## AppSource-publicatiemateriaal
+
+- Voorbeeldrapport: [`PBI example/example project info.pbix`](PBI%20example/example%20project%20info.pbix). Dit offline voorbeeld bevat de Projectinfo-visual versie 1.0.0.21.
+- Privacyverklaring: [`PRIVACY.md`](PRIVACY.md). Gebruik als Partner Center-privacy-URL: `https://github.com/sierdtilma/Acobase-ProjectInfo/blob/main/PRIVACY.md`.
+- Voorwaarden: gebruik de Microsoft Standard Contract voor de Marketplace-aanbieding. De MIT-licentie in deze repository betreft de broncode.
